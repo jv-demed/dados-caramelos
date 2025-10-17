@@ -1,13 +1,17 @@
 import Image from 'next/image';
+import { SwitchBtn } from '@/components/elements/SwitchBtn';
 
 export function ProductBox({ product }) {
     return (
         <div className={`
-            flex items-start gap-4
+            flex items-center
             rounded-4xl overflow-hidden
             bg-zinc-100
         `}>
-            <div className='relative w-[100px] h-[100px]' >
+            <div className={`
+                relative flex-shrink-0
+                w-[100px] h-[100px]  
+            `}>
                 <Image 
                     src={product.img_link}
                     alt='Card frame'
@@ -16,10 +20,23 @@ export function ProductBox({ product }) {
                 />
             </div>
             <div className={`
-                flex
-                border py-2
+                flex items-center justify-between
+                w-full px-4
             `}>
-                {product.name}
+                <div className='flex flex-col'>
+                    <span className='text-sm'>
+                        {product.type}
+                    </span>
+                    <span className='text-xl'>
+                        {product.name}
+                    </span>
+                </div>
+                <div>
+                    <SwitchBtn 
+                        value={product.available}
+                        options={['Esgotado', 'Disponível']}
+                    />
+                </div>
             </div>
         </div>
     )
