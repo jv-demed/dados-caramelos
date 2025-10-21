@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { toggleProductAvailability } from '@/services/productsService';
 import { SwitchBtn } from '@/components/elements/SwitchBtn';
 
 export function ProductBox({ product }) {
@@ -35,6 +36,7 @@ export function ProductBox({ product }) {
                     <SwitchBtn 
                         value={product.available}
                         options={['Esgotado', 'Disponível']}
+                        onChange={async () => await toggleProductAvailability(product)}
                     />
                 </div>
             </div>

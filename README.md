@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🐾 Caramelos do Vale – Dados
 
-## Getting Started
+Este é o **painel administrativo interno** do projeto **Caramelos do Vale**, criado para uso dos colaboradores e administradores da plataforma.  
+Ele serve como ferramenta de **gestão e manutenção dos dados e conteúdos** exibidos no site principal, facilitando o controle e atualização das informações.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎯 Objetivo do Projeto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O objetivo do painel é fornecer uma interface centralizada e segura para que a equipe possa:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Gerenciar e atualizar informações exibidas no site público;
+- Organizar e manter os dados do banco de forma acessível e confiável;
+- Agilizar o trabalho interno, reduzindo a necessidade de acesso direto ao Supabase;
+- Servir como base para futuras ferramentas administrativas e operacionais do projeto.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧱 Arquitetura e Tecnologias Utilizadas
 
-To learn more about Next.js, take a look at the following resources:
+O projeto foi desenvolvido com foco em **clareza, modularidade e escalabilidade**, utilizando uma stack moderna e consolidada.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🔧 **Stack principal**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Categoria | Tecnologia | Descrição |
+|------------|-------------|-----------|
+| **Frontend** | [React](https://react.dev/) | Biblioteca principal para criação da interface. |
+| **Framework** | [Next.js](https://nextjs.org/) | Framework React com suporte a rotas, API Routes e renderização otimizada. |
+| **Estilização** | [Tailwind CSS](https://tailwindcss.com/) | Framework de estilos utilitário, rápido e responsivo. |
+| **Banco de Dados / Backend** | [Supabase](https://supabase.com/) | Plataforma que fornece autenticação, banco de dados (PostgreSQL) e storage. |
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
