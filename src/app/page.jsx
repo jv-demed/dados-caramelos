@@ -1,5 +1,6 @@
 'use client'
 import { Box } from '@/components/containers/Box';
+import { Main } from '@/components/containers/Main';
 import { SpinLoader } from '@/components/elements/SpinLoader';
 import { ProductBox } from '@/components/products/ProductBox';
 import { useDataList } from '@/hooks/useDataList';
@@ -11,10 +12,7 @@ export default function Home() {
     });
 
     return (
-        <main className={`
-            flex flex-col items-center justify-between
-            bg-[#eab74a] min-h-full px-[15%] py-10
-        `}>
+        <Main>
             <Box>
                 <ul className='flex flex-col gap-2 w-full'>
                     {products.loading ? <SpinLoader /> : 
@@ -26,6 +24,6 @@ export default function Home() {
                     }
                 </ul>
             </Box>
-        </main>
+        </Main>
     );
 }

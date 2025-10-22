@@ -1,21 +1,9 @@
 'use client'
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ICONS } from '@/assets/icons';
 
-export function Aside(){
-
-    const router = useRouter();
+export function WebAside({ router, items }){
 
     const [mouseOver, setMouseOver] = useState(false);
-
-    const menuItems = [
-        {
-            name: 'Loja',
-            url: '/',
-            icon: ICONS.store
-        }
-    ];
     
     return(
         <aside 
@@ -33,7 +21,7 @@ export function Aside(){
                 text-white h-full py-12
             `}>
                 <ul className='flex flex-col gap-[14px]'>
-                    {menuItems.map(item => (
+                    {items.map(item => (
                         <li key={item.name} 
                             className='flex cursor-pointer items-center gap-[10px]'
                             onClick={() => router.push(item.url)}
