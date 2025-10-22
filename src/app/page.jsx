@@ -1,11 +1,14 @@
 'use client'
+import { useMedia } from '@/hooks/useMedia';
+import { useDataList } from '@/hooks/useDataList';
 import { Box } from '@/components/containers/Box';
 import { Main } from '@/components/containers/Main';
 import { SpinLoader } from '@/components/elements/SpinLoader';
 import { ProductBox } from '@/components/products/ProductBox';
-import { useDataList } from '@/hooks/useDataList';
 
 export default function Home() {
+
+    const isMobile = useMedia(650);
 
     const products = useDataList({
         table: 'products',
@@ -18,7 +21,10 @@ export default function Home() {
                     {products.loading ? <SpinLoader /> : 
                         products.list.map(product => (
                             <li key={product.id}>
-                                <ProductBox product={product} />
+                                <ProductBox 
+                                    isMobile={isMobile}
+                                    product={product} 
+                                />
                             </li>
                         ))
                     }
