@@ -2,7 +2,11 @@ import Image from 'next/image';
 import { toggleProductAvailability } from '@/services/productsService';
 import { SwitchBtn } from '@/components/elements/SwitchBtn';
 
-export function ProductBox({ isMobile, product }) {
+export function ProductBox({ 
+    isMobile, 
+    product,
+    refresh
+}){
     return (
         <div className={`
             flex items-center
@@ -37,7 +41,10 @@ export function ProductBox({ isMobile, product }) {
                     <SwitchBtn 
                         value={product.available}
                         options={['Esgotado', 'Disponível']}
-                        onChange={async () => await toggleProductAvailability(product)}
+                        onChange={async () => {
+                            toggleProductAvailability(product);
+                            refresh();
+                        }}
                     />
                 </div>
             </div>

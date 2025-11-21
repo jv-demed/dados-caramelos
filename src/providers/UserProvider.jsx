@@ -17,7 +17,6 @@ export function UserProvider({ children }){
 
     async function getUser(){
         const { data, error } = await supabase.auth.getUser();
-        console.log(data);
         if(error || !data?.user){
             router.push('/login');
             return;

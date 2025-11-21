@@ -24,6 +24,7 @@ export default function Home() {
                                 <ProductBox 
                                     isMobile={isMobile}
                                     product={product} 
+                                    refresh={products.refresh}
                                 />
                             </li>
                         ))
