@@ -8,10 +8,12 @@ import { Main } from '@/components/containers/Main';
 import { TextInput } from '@/components/inputs/TextInput';
 import { ActionBtn } from '@/components/elements/ActionBtn';
 import { PasswordInput } from '@/components/inputs/PasswordInput';
+import { useMedia } from '@/hooks/useMedia';
 
 export default function LoginPage() {
 
     const router = useRouter();
+    const isMobile = useMedia(650);
 
     const [auth, setAuth] = useState({
         email: '',
@@ -27,18 +29,16 @@ export default function LoginPage() {
     }
 
     return (
-        <Main isWithoutMenu>
-            <Box width='400px'>
-                <form className='flex flex-col gap-4'>
+        <Main isMenuHidden>
+            <Box width={isMobile ? '90%' : '400px'}>
+                <form className='flex flex-col gap-4 w-full'>
                     <TextInput title='Login' 
                         value={auth.email}
                         setValue={e => setAuth({ ...auth, email: e })}
-                        width='300px'
                     />
                     <PasswordInput title='Senha'
                         value={auth.password}
                         setValue={e => setAuth({ ...auth, password: e })}
-                        width='300px'
                     />
                     <ActionBtn text='Entrar'
                         type='submit'
