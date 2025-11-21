@@ -30,6 +30,7 @@ export function MobileHeader({ router, items }){
                             <li key={item.name}
                                 className='flex items-center gap-3 border-b border-white pb-2 cursor-pointer'
                                 onClick={async () => {
+                                    item.action && item.action();
                                     router.push(item.url);
                                     setIsOpen(false);
                                 }}

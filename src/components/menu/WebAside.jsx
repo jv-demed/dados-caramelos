@@ -24,7 +24,10 @@ export function WebAside({ router, items }){
                     {items.map(item => (
                         <li key={item.name} 
                             className='flex cursor-pointer items-center gap-[10px]'
-                            onClick={() => router.push(item.url)}
+                            onClick={() => {
+                                item.action && item.action();
+                                router.push(item.url);
+                            }}
                         >
                             <div className='flex text-[1.5rem]'>
                                 {item.icon && <item.icon />}
