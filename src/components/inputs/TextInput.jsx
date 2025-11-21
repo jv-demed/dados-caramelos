@@ -23,9 +23,9 @@ export function TextInput({
                 className={`
                     h-12 px-6 text-xl
                     border border-gray-500 rounded-full   
-                    hover:border-[#1b5b82]
+                    hover:border-[#1e95b3]
                     focus:outline-none focus:ring-2
-                    focus:ring-[#1b5b82] focus:border-[#1b5b82]
+                    focus:ring-[#1e95b3] focus:border-[#1e95b3]
                 `}
             />
         </div>

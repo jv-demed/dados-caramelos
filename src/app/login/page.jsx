@@ -32,7 +32,8 @@ export default function LoginPage() {
         <Main isMenuHidden>
             <Box width={isMobile ? '90%' : '400px'}>
                 <form className='flex flex-col gap-4 w-full'>
-                    <TextInput title='Login' 
+                    <TextInput title='E-mail' 
+                        type='email'
                         value={auth.email}
                         setValue={e => setAuth({ ...auth, email: e })}
                     />
