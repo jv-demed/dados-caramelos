@@ -22,7 +22,7 @@ export function TextInput({
                 style={{ width }}
                 className={`
                     h-12 px-6 text-xl
-                    border border-gray-500 rounded-full   
+                    border border-gray-400 rounded-full   
                     hover:border-[#1e95b3]
                     focus:outline-none focus:ring-2
                     focus:ring-[#1e95b3] focus:border-[#1e95b3]
