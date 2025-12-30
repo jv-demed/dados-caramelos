@@ -12,7 +12,9 @@ export function TextInput({
             flex flex-col gap-0.5
             w-full text-text
         `}>
-            {title && <span>{title}:</span>}
+            {title && <span className='text-darktext'>
+                {title}:
+            </span>}
             <input name={title || 'input-label'}
                 type={type || 'text'}
                 value={value}
@@ -21,7 +23,7 @@ export function TextInput({
                 disabled={disabled}
                 style={{ width }}
                 className={`
-                    h-12 px-6 text-xl
+                    h-12 px-6 text-xl text-darktext
                     border border-gray-400 rounded-full   
                     hover:border-[#1e95b3]
                     focus:outline-none focus:ring-2

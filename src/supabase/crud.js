@@ -6,6 +6,9 @@ export async function updateRecord(table, id, updatedObj) {
         .update(updatedObj)
         .eq('id', id)
         .select('*');
-    if(error) console.log(error);
+    if(error) {
+        console.error('Erro no Supabase: ', error.message);
+        return null;
+    }
     return data;
 }

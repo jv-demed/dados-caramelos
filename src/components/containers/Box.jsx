@@ -7,7 +7,7 @@ export function Box({
             style={{ width }}
             className={`
                 flex flex-col items-center justify-center
-                bg-white text-gray-800 px-4 py-6 rounded-4xl
+                bg-white text-gray-800 p-4 rounded-4xl
             `}
         >
             {children}

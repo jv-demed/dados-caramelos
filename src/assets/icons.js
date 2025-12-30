@@ -1,3 +1,4 @@
+import { FaRegEdit } from 'react-icons/fa';
 import { LuLoaderCircle } from 'react-icons/lu';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import { MdOutlineStorefront } from 'react-icons/md';
@@ -6,6 +7,7 @@ import { FaMinus, FaPlus, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 export const ICONS = {
     close: IoClose,
+    edit: FaRegEdit,
     eye: FaRegEye,
     eyeOff: FaRegEyeSlash,
     login: BiLogInCircle,
