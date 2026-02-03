@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { updateProduct } from '@/services/productsService';
+import { createProduct, deleteProduct, updateProduct } from '@/services/productsService';
 import { PRODUCT } from '@/models/Product';
 import { ProductType } from '@/models/ProductType';
 import { ProductMaterial } from '@/models/ProductMaterial';
@@ -10,8 +10,14 @@ import { ActionBtn } from '@/components/elements/ActionBtn';
 import { MoneyInput } from '@/components/inputs/MoneyInput';
 import { SelectInput } from '@/components/inputs/SelectInput';
 import { CheckboxInput } from '@/components/inputs/CheckboxInput';
+import { TrashBtn } from '../elements/TrashBtn';
 
-export function ProductForm({ open, onClose, onSuccess, product }) {
+export function ProductForm({ 
+    open, 
+    onClose, 
+    onSuccess, 
+    product 
+}) {
 
     const [productModel, setProductModel] = useState(PRODUCT);
 
@@ -24,13 +30,23 @@ export function ProductForm({ open, onClose, onSuccess, product }) {
     }, [product]);
 
     async function onSave() {
+        let result;
         if(product?.id) {
-            await updateProduct(productModel);
+            result = await updateProduct(productModel);
         } else {
-            console.log('novo');
+            result = await createProduct(productModel);
         }
+        if(!result) return;
         await onSuccess();
         onClose();
+    }
+
+    async function onDelete() {
+        const result = await deleteProduct(productModel);
+        if(result) {
+            await onSuccess();
+            onClose();
+        }
     }
 
     return (
@@ -71,6 +87,10 @@ export function ProductForm({ open, onClose, onSuccess, product }) {
                     setValue={e => setProductModel({ ...productModel, img_link: e })}
                 />
                 <div className='flex justify-end gap-2 mt-4'>
+                    <TrashBtn 
+                        onClick={onDelete} 
+                        isVisible={productModel.id}
+                    />
                     <ActionBtn text='Cancelar'
                         action={onClose}
                         bg='var(--error)'

@@ -5,6 +5,7 @@
     --foreground: #171717;
     --primary: #1e95b3;
     --darktext: #252525;
+    --border: #99a1af;
     --error: tomato;
 }
 
@@ -15,6 +16,7 @@
     --font-mono: var(--font-geist-mono);
     --color-primary: #1e95b3;
     --color-darktext: #252525;
+    --color-border: #99a1af;
     --color-error: tomato;
 }
 
@@ -30,3 +32,12 @@ body {
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.swal-rounded {
+    border-radius: 32px;
+}
+  
+.swal-btn-rounded {
+    border-radius: 999px;
+    padding: 10px 20px;
+}  

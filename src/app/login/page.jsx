@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMedia } from '@/hooks/useMedia';
 import { login } from '@/supabase/auth';
 import { ICONS } from '@/assets/icons';
 import { Box } from '@/components/containers/Box';
@@ -8,7 +9,6 @@ import { Main } from '@/components/containers/Main';
 import { TextInput } from '@/components/inputs/TextInput';
 import { ActionBtn } from '@/components/elements/ActionBtn';
 import { PasswordInput } from '@/components/inputs/PasswordInput';
-import { useMedia } from '@/hooks/useMedia';
 
 export default function LoginPage() {
 

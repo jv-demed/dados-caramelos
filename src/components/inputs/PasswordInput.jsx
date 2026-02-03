@@ -29,10 +29,10 @@ export function PasswordInput({
                     className={`
                         flex items-center
                         w-full h-12 px-6 text-xl
-                        border border-gray-500 rounded-full  
-                        hover:border-[#1e95b3]
+                        border border-border rounded-full  
+                        hover:border-primary
                         focus:outline-none focus:ring-2
-                        focus:ring-[#1e95b3] focus:border-[#1e95b3]
+                        focus:ring-primary focus:border-primary
                     `}
                 />
                 <button type='button' 
@@ -41,8 +41,8 @@ export function PasswordInput({
                         absolute right-2 top-1/2 
                         transform -translate-y-1/2 
                         rounded cursor-pointer p-1 text-xl
-                        hover:text-[#1e95b3] 
-                        focus:outline-none focus:ring-2 focus:ring-[#1e95b3]
+                        text-border hover:text-primary 
+                        focus:outline-none focus:ring-2 focus:ring-primary
                     `}
                 >
                     {passMode ? <ICONS.eyeOff /> : <ICONS.eye />}

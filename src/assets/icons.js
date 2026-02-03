@@ -3,7 +3,7 @@ import { LuLoaderCircle } from 'react-icons/lu';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import { MdOutlineStorefront } from 'react-icons/md';
 import { BiLogInCircle, BiLogOutCircle } from 'react-icons/bi';
-import { FaMinus, FaPlus, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
+import { FaMinus, FaPlus, FaRegEye, FaRegEyeSlash, FaRegTrashCan } from 'react-icons/fa6';
 
 export const ICONS = {
     close: IoClose,
@@ -16,5 +16,6 @@ export const ICONS = {
     minus: FaMinus,
     plus: FaPlus,
     spinLoader: LuLoaderCircle,
-    store: MdOutlineStorefront
+    store: MdOutlineStorefront,
+    trash: FaRegTrashCan
 }

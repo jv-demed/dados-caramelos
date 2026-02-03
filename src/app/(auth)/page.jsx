@@ -18,7 +18,6 @@ export default function Home() {
     const products = useDataList({
         table: 'products',
     });
-    // console.log(products);
 
     const [search, setSearch] = useState('');
     const [productsFiltered, setProductsFiltered] = useState([]);
@@ -55,7 +54,6 @@ export default function Home() {
                             icon={ICONS.plus}
                             width='60px'
                             action={() => setIsModalOpen(true)}
-                            disabled
                         />
                     </div>
                     <ul className='flex flex-col gap-2 w-full'>

@@ -24,10 +24,10 @@ export function TextInput({
                 style={{ width }}
                 className={`
                     h-12 px-6 text-xl text-darktext
-                    border border-gray-400 rounded-full   
-                    hover:border-[#1e95b3]
+                    border border-border rounded-full   
+                    hover:border-primary
                     focus:outline-none focus:ring-2
-                    focus:ring-[#1e95b3] focus:border-[#1e95b3]
+                    focus:ring-primary focus:border-primary
                 `}
             />
         </div>
