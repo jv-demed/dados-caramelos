@@ -5,6 +5,19 @@ import { ProductMaterial } from '@/models/ProductMaterial';
 
 const alert = new AlertService();
 
+export function createEmptyProduct() {
+    return {
+        id: null,
+        name: '',
+        type: '',
+        material: '',
+        price: 0,
+        available: false,
+        size: false,
+        img_link: '',
+    }
+}
+
 export async function createProduct(newProduct) {
     if(!verifyProduct(newProduct)) return;
     const { id, ...productToInsert } = newProduct;
@@ -12,12 +25,15 @@ export async function createProduct(newProduct) {
     return await createRecord('products', normalizedProduct);
 }
 
-export async function updateProduct(updateProduct) {
-    const normalizedProduct = normalize(updateProduct);
-    return await updateRecord('products', updateProduct.id, normalizedProduct);
+export async function updateProduct(product) {
+    if(!product?.id) return;
+    if(!verifyProduct(product)) return;
+    const normalizedProduct = normalize(product);
+    return await updateRecord('products', product.id, normalizedProduct);
 }
 
 export async function toggleProductAvailability(product) {
+    if(!product?.id) return;
     return await updateRecord('products', product.id, { 
         available: !product.available 
     });
@@ -33,17 +49,17 @@ export async function deleteProduct(product) {
 }
 
 function normalize(product) {
+    const typeUpper = ProductType.toUpper(product.type);
+    const isCamiseta = typeUpper === ProductType.CAMISETA;
     return {
         ...product,
         name: product.name?.trim(),
         img_link: product.img_link?.trim(),
         type: ProductType.toLower(product.type),
-        material: ProductType.CAMISETA === ProductType.toUpper(product.type)  
-                ? ProductMaterial.toLower(product.material)
-                : null,
-        size: ProductType.CAMISETA === ProductType.toUpper(product.type)
-                ? true 
-                : null
+        material: isCamiseta
+            ? ProductMaterial.toLower(product.material)
+            : null,
+        size: isCamiseta ? true : null
     }
 }
 
@@ -56,7 +72,8 @@ function verifyProduct(product) {
         alert.error('A categoria do produto é obrigatória');
         return false;
     }
-    if(product.type == ProductType.CAMISETA && !product.material) {
+    const type = ProductType.toUpper(product.type);
+    if(type === ProductType.CAMISETA && !product.material) {
         alert.error('O material do produto é obrigatório');
         return false;
     }

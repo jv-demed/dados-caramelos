@@ -1,16 +1,15 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { createProduct, deleteProduct, updateProduct } from '@/services/productsService';
-import { PRODUCT } from '@/models/Product';
+import { createEmptyProduct, createProduct, deleteProduct, updateProduct } from '@/services/productsService';
 import { ProductType } from '@/models/ProductType';
 import { ProductMaterial } from '@/models/ProductMaterial';
 import { Modal } from '@/components/containers/Modal';
 import { TextInput } from '@/components/inputs/TextInput';
+import { TrashBtn } from '@/components/elements/TrashBtn';
 import { ActionBtn } from '@/components/elements/ActionBtn';
 import { MoneyInput } from '@/components/inputs/MoneyInput';
 import { SelectInput } from '@/components/inputs/SelectInput';
 import { CheckboxInput } from '@/components/inputs/CheckboxInput';
-import { TrashBtn } from '../elements/TrashBtn';
 
 export function ProductForm({ 
     open, 
@@ -19,35 +18,27 @@ export function ProductForm({
     product 
 }) {
 
-    const [productModel, setProductModel] = useState(PRODUCT);
+    const [productModel, setProductModel] = useState(createEmptyProduct());
 
     useEffect(() => {
-        if(product) {
-            setProductModel(product);
-        } else {
-            setProductModel(PRODUCT);
-        }
+        setProductModel(product ? { ...product } : createEmptyProduct());
     }, [product]);
 
     async function onSave() {
-        let result;
-        if(product?.id) {
-            result = await updateProduct(productModel);
-        } else {
-            result = await createProduct(productModel);
-        }
+        const result = product?.id
+            ? await updateProduct(productModel)
+            : await createProduct(productModel)
         if(!result) return;
         await onSuccess();
         onClose();
-    }
+    };
 
     async function onDelete() {
         const result = await deleteProduct(productModel);
-        if(result) {
-            await onSuccess();
-            onClose();
-        }
-    }
+        if(!result) return;
+        await onSuccess();
+        onClose();
+    };
 
     return (
         <Modal title='Produto'

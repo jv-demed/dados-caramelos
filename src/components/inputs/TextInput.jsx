@@ -23,7 +23,7 @@ export function TextInput({
                 disabled={disabled}
                 style={{ width }}
                 className={`
-                    h-12 px-6 text-xl text-darktext
+                    h-12 px-6 text-xl
                     border border-border rounded-full   
                     hover:border-primary
                     focus:outline-none focus:ring-2

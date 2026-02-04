@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useMedia } from '@/hooks/useMedia';
 import { login } from '@/supabase/auth';
 import { ICONS } from '@/assets/icons';
+import { MEDIA } from '@/assets/media';
 import { Box } from '@/components/containers/Box';
 import { Main } from '@/components/containers/Main';
 import { TextInput } from '@/components/inputs/TextInput';
@@ -13,7 +14,7 @@ import { PasswordInput } from '@/components/inputs/PasswordInput';
 export default function LoginPage() {
 
     const router = useRouter();
-    const isMobile = useMedia(650);
+    const isMobile = useMedia(MEDIA.mobile);
 
     const [auth, setAuth] = useState({
         email: '',
@@ -22,9 +23,7 @@ export default function LoginPage() {
 
     async function handleSubmit(){
         await login(auth).then(res => {
-            if(res.success){
-                router.push('/');
-            }
+            if(res.success) router.push('/');
         });
     }
 

@@ -9,7 +9,7 @@ export function WebAside({ router, items }){
         <aside 
             className={`
                 fixed bottom-0 top-0 z-10 
-                bg-[#1e95b3]
+                bg-primary
                 transition-all duration-100 
                 ${mouseOver ? 'w-[280px]' : 'w-[50px]'}
             `}
@@ -18,7 +18,7 @@ export function WebAside({ router, items }){
         >
             <nav className={`
                 flex flex-col items-center justify-between 
-                text-white h-full py-12
+                text-lighttext h-full py-12
             `}>
                 <ul className='flex flex-col gap-[14px]'>
                     {items.map(item => (

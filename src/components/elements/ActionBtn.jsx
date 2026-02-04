@@ -7,7 +7,7 @@ export function ActionBtn({
     action,
     disabled,
     reverse,
-    bg = '#1e95b3', 
+    bg = 'var(--color-primary)', 
     width = '100%',
     icon: Icon
 }){
@@ -26,10 +26,10 @@ export function ActionBtn({
             onClick={handleAction}
             className={`
                 flex items-center justify-center gap-2.5
-                rounded-full h-12 px-2 text-white
+                rounded-full h-12 px-2 text-lighttext
                 hover:brightness-90
                 focus:outline-none focus:ring-2
-                focus:ring-[#1e95b3] focus:border-[#1e95b3]
+                focus:ring-primary focus:border-primary
             `}
             style={{ 
                 background: disabled ? 'gray' : bg,
@@ -41,11 +41,11 @@ export function ActionBtn({
             {!isLoading 
                 ? <>
                     {text && <span>{text}</span>}
-                    {Icon && <span className='text-2xl'>
+                    {Icon && <span className='text-2xl text-lighttext'>
                         <Icon />    
                     </span>}
                 </> 
-                : <SpinLoader color='white' />}
+                : <SpinLoader color='var(--color-lighttext)' />}
         </button>
     )
 }

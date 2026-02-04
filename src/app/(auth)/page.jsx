@@ -1,8 +1,9 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useMedia } from '@/hooks/useMedia';
 import { useDataList } from '@/hooks/useDataList';
 import { ICONS } from '@/assets/icons';
+import { MEDIA } from '@/assets/media';
 import { Box } from '@/components/containers/Box';
 import { Main } from '@/components/containers/Main';
 import { TextInput } from '@/components/inputs/TextInput';
@@ -13,32 +14,37 @@ import { ProductForm } from '@/components/products/ProductForm';
 
 export default function Home() {
 
-    const isMobile = useMedia(650);
+    const isMobile = useMedia(MEDIA.mobile);
 
-    const products = useDataList({
-        table: 'products',
-    });
+    const products = useDataList({ table: 'products' });
 
     const [search, setSearch] = useState('');
-    const [productsFiltered, setProductsFiltered] = useState([]);
-
-    useEffect(() => {
-        setProductsFiltered(products.list);
-    }, [products.list]);
-
-    useEffect(() => {
-        if(search.length === 0) {
-            setProductsFiltered(products.list);
-        } else {
-            const filtered = products.list.filter(product => 
-                product.name.toLowerCase().includes(search.toLowerCase())
-            );
-            setProductsFiltered(filtered);
-        }
-    }, [search]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const productsFiltered = useMemo(() => {
+        if(!search) return products.list;
+        const searchLower = search.toLowerCase();
+        return products.list.filter(product =>
+            product.name.toLowerCase().includes(searchLower)
+        )
+    }, [search, products.list]);
+
+    function openCreateModal() {
+        setSelectedProduct(null);
+        setIsModalOpen(true);
+    };
+
+    function openEditModal(product) {
+        setSelectedProduct(product);
+        setIsModalOpen(true);
+    };
+
+    function closeModal() {
+        setIsModalOpen(false);
+        setSelectedProduct(null);
+    };
 
     return (
         <Main>
@@ -53,7 +59,7 @@ export default function Home() {
                         <ActionBtn 
                             icon={ICONS.plus}
                             width='60px'
-                            action={() => setIsModalOpen(true)}
+                            action={openCreateModal}
                         />
                     </div>
                     <ul className='flex flex-col gap-2 w-full'>
@@ -64,27 +70,20 @@ export default function Home() {
                                         isMobile={isMobile}
                                         product={product} 
                                         refresh={products.refresh}
-                                        openEditModal={() => {
-                                            setSelectedProduct(product);
-                                            setIsModalOpen(true);
-                                        }}
+                                        openEditModal={() => openEditModal(product)}
                                     />
                                 </li>
                             ))}
                             {productsFiltered.length === 0 && <li>
                                 Nenhum produto encontrado.
                             </li>}
-                        </>
-                        }
+                        </>}
                     </ul>
                 </div>
             </Box>
             <ProductForm
                 open={isModalOpen}
-                onClose={() => {
-                    setIsModalOpen(false);
-                    setSelectedProduct(null);
-                }}
+                onClose={closeModal}
                 onSuccess={products.refresh}
                 product={selectedProduct}
             />
