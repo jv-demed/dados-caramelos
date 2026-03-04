@@ -44,7 +44,6 @@ export async function deleteProduct(product) {
         alert.error('O produto não foi encontrado');
         return;
     }
-    if(!await alert.deleteConfirm()) return;
     return await deleteRecord('products', product.id);
 }
 

@@ -14,7 +14,7 @@ import {
   Modal,
 } from "antd";
 import { MoreVertical } from "lucide-react";
-import { ProductForm } from "@/components/ProductModal";
+import { ProductForm } from "@/screens/products/ProductModal";
 import { deleteProduct } from "@/services/productsService";
 
 const { Search } = Input;
@@ -153,10 +153,7 @@ export default function Home() {
       content: (
         <>
           Você realmente deseja excluir o produto{" "}
-          <strong>{product.name}</strong>?
-          <br />
-          <br />
-          Essa ação não poderá ser desfeita.
+          <strong>{product.name}</strong>? Essa ação não poderá ser desfeita.
         </>
       ),
       okText: "Excluir",
@@ -180,7 +177,7 @@ export default function Home() {
         onSuccess={products.refresh}
         product={selectedProduct}
       />
-
+      <h1>Produtos</h1>
       <div className="w-full flex gap-8">
         <Search
           placeholder="Buscar produto pelo nome"

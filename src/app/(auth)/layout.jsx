@@ -1,5 +1,6 @@
 import "@/app/globals.css";
-import { MenuLayout } from "@/components/menu/MenuLayout";
+import { BottomMenu } from "@/components/layout/BottomMenu";
+import { LateralMenu } from "@/components/layout/LateralMenu";
 import { UserProvider } from "@/providers/UserProvider";
 
 export const metadata = {
@@ -9,10 +10,15 @@ export const metadata = {
 export default function Layout({ children }) {
   return (
     <UserProvider>
-      <MenuLayout />
-      <div className="min-h-screen max-w-8xl mx-auto flex flex-col gap-4 md:gap-6 p-5 md:p-10">
-        {children}
-      </div>
+      <BottomMenu />
+      <main className="flex pt-16.5 md:p-0 md:h-screen">
+        <div className="hidden md:block">
+          <LateralMenu />
+        </div>
+        <section className="w-full overflow-y-auto flex flex-col gap-4 md:gap-6 px-5 md:p-10 lg:p-16">
+          {children}
+        </section>
+      </main>
     </UserProvider>
   );
 }
