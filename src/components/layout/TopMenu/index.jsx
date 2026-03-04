@@ -4,7 +4,7 @@ import { logout } from "@/supabase/auth";
 import { Menu } from "antd";
 import { navItems } from "@/data/navMenu";
 
-export function BottomMenu() {
+export function TopMenu() {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -16,7 +16,7 @@ export function BottomMenu() {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 md:hidden bg-white border-t shadow-md z-[9999]">
+    <div className="fixed top-0 left-0 right-0 md:hidden bg-white shadow-md z-[9999]">
       <Menu
         mode="horizontal"
         selectedKeys={[pathname]}

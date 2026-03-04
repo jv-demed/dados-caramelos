@@ -17,13 +17,13 @@ export function LateralMenu() {
   };
 
   return (
-    <div className="h-screen w-64 border-r">
+    <div className="h-screen w-64">
       <Menu
         mode="inline"
         selectedKeys={[pathname]}
         onClick={handleClick}
         items={navItems}
-        className="h-full border-none"
+        className="h-full border-none p-4"
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import { BottomMenu } from "@/components/layout/BottomMenu";
+import { TopMenu } from "@/components/layout/TopMenu";
 import { LateralMenu } from "@/components/layout/LateralMenu";
 import { UserProvider } from "@/providers/UserProvider";
 
@@ -10,7 +10,7 @@ export const metadata = {
 export default function Layout({ children }) {
   return (
     <UserProvider>
-      <BottomMenu />
+      <TopMenu />
       <main className="flex pt-16.5 md:p-0 md:h-screen">
         <div className="hidden md:block">
           <LateralMenu />

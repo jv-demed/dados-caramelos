@@ -177,7 +177,7 @@ export default function Home() {
         onSuccess={products.refresh}
         product={selectedProduct}
       />
-      <h1>Produtos</h1>
+      <h1 className="text-2xl font-semibold">Produtos</h1>
       <div className="w-full flex gap-8">
         <Search
           placeholder="Buscar produto pelo nome"
