@@ -12,18 +12,6 @@ import { useProductsColumns } from "@/hooks/useProductsColumns";
 
 const { Search } = Input;
 
-const tagPalette = [
-  "magenta",
-  "red",
-  "volcano",
-  "orange",
-  "gold",
-  "green",
-  "cyan",
-  "blue",
-  "purple",
-];
-
 export function ProductsPage() {
   const products = useDataList({ table: "products" });
 
@@ -105,7 +93,9 @@ export function ProductsPage() {
           onChange={(e) => setSearch(e.target.value)}
           className="w-full"
         />
-        <Button onClick={handleOpenCreateModal}>Adicionar Produto</Button>
+        <Button onClick={handleOpenCreateModal} type="primary">
+          Adicionar Produto
+        </Button>
       </div>
       <Table
         rowKey="id"
