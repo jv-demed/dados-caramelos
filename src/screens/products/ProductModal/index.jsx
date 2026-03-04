@@ -11,8 +11,6 @@ import {
 import { ProductType } from "@/models/ProductType";
 import { ProductMaterial } from "@/models/ProductMaterial";
 
-import { SelectInput } from "@/components/inputs/SelectInput";
-
 export function ProductForm({ open, onClose, onSuccess, product }) {
   const [productModel, setProductModel] = useState(createEmptyProduct());
   const [loading, setLoading] = useState(false);
@@ -153,7 +151,7 @@ export function ProductForm({ open, onClose, onSuccess, product }) {
                 img_link: e.target.value,
               })
             }
-            placeholder="https://..."
+            placeholder="ex: https://site.com/imagem.jpg"
           />
         </div>
       </div>
