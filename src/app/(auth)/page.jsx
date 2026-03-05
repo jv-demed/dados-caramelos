@@ -1,5 +1,5 @@
-import { ProductsPage } from "@/screens/products";
+import { ProductsPage } from '@/screens/products';
 
 export default function Home() {
-  return <ProductsPage />;
+    return <ProductsPage />;
 }

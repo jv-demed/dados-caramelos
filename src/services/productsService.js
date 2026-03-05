@@ -15,32 +15,32 @@ export function createEmptyProduct() {
         available: false,
         size: false,
         img_link: '',
-    }
+    };
 }
 
 export async function createProduct(newProduct) {
-    if(!verifyProduct(newProduct)) return;
+    if (!verifyProduct(newProduct)) return;
     const { id, ...productToInsert } = newProduct;
     const normalizedProduct = normalize(productToInsert);
     return await createRecord('products', normalizedProduct);
 }
 
 export async function updateProduct(product) {
-    if(!product?.id) return;
-    if(!verifyProduct(product)) return;
+    if (!product?.id) return;
+    if (!verifyProduct(product)) return;
     const normalizedProduct = normalize(product);
     return await updateRecord('products', product.id, normalizedProduct);
 }
 
 export async function toggleProductAvailability(product) {
-    if(!product?.id) return;
-    return await updateRecord('products', product.id, { 
-        available: !product.available 
+    if (!product?.id) return;
+    return await updateRecord('products', product.id, {
+        available: !product.available,
     });
 }
 
 export async function deleteProduct(product) {
-    if(!product.id) {
+    if (!product.id) {
         alert.error('O produto não foi encontrado');
         return;
     }
@@ -55,32 +55,30 @@ function normalize(product) {
         name: product.name?.trim(),
         img_link: product.img_link?.trim(),
         type: ProductType.toLower(product.type),
-        material: isCamiseta
-            ? ProductMaterial.toLower(product.material)
-            : null,
-        size: isCamiseta ? true : null
-    }
+        material: isCamiseta ? ProductMaterial.toLower(product.material) : null,
+        size: isCamiseta ? true : null,
+    };
 }
 
 function verifyProduct(product) {
-    if(!product.name) {
+    if (!product.name) {
         alert.error('O nome do produto é obrigatório');
         return false;
     }
-    if(!product.type) {
+    if (!product.type) {
         alert.error('A categoria do produto é obrigatória');
         return false;
     }
     const type = ProductType.toUpper(product.type);
-    if(type === ProductType.CAMISETA && !product.material) {
+    if (type === ProductType.CAMISETA && !product.material) {
         alert.error('O material do produto é obrigatório');
         return false;
     }
-    if(product.price == null || product.price < 0) {
+    if (product.price == null || product.price < 0) {
         alert.error('O preço do produto é obrigatório e deve ser positivo');
         return false;
     }
-    if(!product.img_link) {
+    if (!product.img_link) {
         alert.error('O link da imagem do produto é obrigatório');
         return false;
     }

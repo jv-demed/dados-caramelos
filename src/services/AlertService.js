@@ -1,7 +1,6 @@
 import Swal from 'sweetalert2';
 
 export class AlertService {
-
     async deleteConfirm() {
         const result = await Swal.fire({
             title: 'Tem certeza que deseja excluir?',
@@ -12,7 +11,7 @@ export class AlertService {
             confirmButtonColor: 'var(--error)',
             cancelButtonText: 'Não, cancelar',
             reverseButtons: true,
-            customClass: this.roundedDefault
+            customClass: this.roundedDefault,
         });
         return result.isConfirmed;
     }
@@ -23,14 +22,13 @@ export class AlertService {
             icon: 'error',
             text: message,
             title: 'Oops...',
-            customClass: this.roundedDefault
+            customClass: this.roundedDefault,
         });
     }
 
     roundedDefault = {
         popup: 'swal-rounded',
         confirmButton: 'swal-btn-rounded',
-        cancelButton: 'swal-btn-rounded'
-    }
-
+        cancelButton: 'swal-btn-rounded',
+    };
 }

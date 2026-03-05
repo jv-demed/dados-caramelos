@@ -1,5 +1,4 @@
 export const ProductMaterial = Object.freeze({
-
     ALGODAO: 'ALGODAO',
     POLIESTER: 'POLIESTER',
 
@@ -10,8 +9,8 @@ export const ProductMaterial = Object.freeze({
 
     options() {
         return Object.values(this)
-            .filter(v => typeof v === 'string')
-            .map(value => ({
+            .filter((v) => typeof v === 'string')
+            .map((value) => ({
                 value,
                 label: this.labels[value],
             }));
@@ -24,5 +23,4 @@ export const ProductMaterial = Object.freeze({
     toUpper(value) {
         return value?.toUpperCase();
     },
-
 });

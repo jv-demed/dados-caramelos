@@ -1,12 +1,11 @@
-'use client'
+'use client';
 import { useState, useEffect } from 'react';
 
-export function useMedia(minWidth){
-
+export function useMedia(minWidth) {
     const [media, setMedia] = useState();
 
     useEffect(() => {
-        if(typeof window != undefined){
+        if (typeof window != undefined) {
             function handleResize() {
                 setMedia(window.innerWidth <= minWidth);
             }

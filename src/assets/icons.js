@@ -17,5 +17,5 @@ export const ICONS = {
     plus: FaPlus,
     spinLoader: LuLoaderCircle,
     store: MdOutlineStorefront,
-    trash: FaRegTrashCan
-}
+    trash: FaRegTrashCan,
+};
