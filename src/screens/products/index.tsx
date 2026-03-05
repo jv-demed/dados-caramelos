@@ -114,7 +114,13 @@ export function ProductsPage() {
                 }}
                 className="w-full hidden md:table"
             />
-            <ProductsMobileList products={filteredProducts} typeColors={typeColors} />
+            <ProductsMobileList
+                products={filteredProducts}
+                typeColors={typeColors}
+                handleOpenEditModal={handleOpenEditModal}
+                handleOpenDeleteModal={handleOpenDeleteModal}
+                toggleProductAvailability={toggleProductAvailability}
+            />
         </>
     );
 }

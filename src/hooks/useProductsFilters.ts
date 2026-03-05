@@ -1,4 +1,6 @@
+import { IProduct } from '@/types/Product';
 import { useMemo } from 'react';
+import { FilterValue } from 'antd/es/table/interface';
 
 const tagPalette = [
     'magenta',
@@ -12,7 +14,11 @@ const tagPalette = [
     'purple',
 ];
 
-export function useProductsFilters(products, search, tableFilters) {
+export function useProductsFilters(
+    products: IProduct[],
+    search: string,
+    tableFilters: Record<string, FilterValue>
+) {
     const typeFilters = useMemo(() => {
         return Array.from(new Set(products.map((p) => p.type)))
             .sort()

@@ -2,7 +2,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/supabase/client';
 
-export function useDataList({ table, select = '*', filter, order = 'name', ascending = true }) {
+export function useDataList({
+    table,
+    select = '*',
+    filter,
+    order = 'name',
+    ascending = true,
+}: {
+    table: string;
+    select?: string;
+    filter?: (query: any) => any;
+    order?: string;
+    ascending?: boolean;
+}) {
     const [list, setList] = useState([]);
     const [flag, setFlag] = useState(false);
     const [loading, setLoading] = useState(true);

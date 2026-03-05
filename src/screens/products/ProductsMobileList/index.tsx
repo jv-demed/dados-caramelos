@@ -1,7 +1,13 @@
 import { Switch, Tag, Image, Dropdown, Card } from 'antd';
 import { MoreVertical } from 'lucide-react';
 
-export function ProductsMobileList({ products, typeColors }) {
+export function ProductsMobileList({
+    products,
+    typeColors,
+    handleOpenEditModal,
+    handleOpenDeleteModal,
+    toggleProductAvailability,
+}) {
     return (
         <div className="flex flex-col gap-3 md:hidden">
             {products.map((item) => (

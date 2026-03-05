@@ -55,7 +55,6 @@ export default function RootLayout({ children }) {
                                     handleBg: '#ffffff',
                                 },
                                 Input: {
-                                    colorBorderHover: '#187c95',
                                     colorPrimaryHover: '#187c95',
                                     activeBorderColor: '#1e95b3',
                                     hoverBorderColor: '#187c95',

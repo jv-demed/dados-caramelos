@@ -1,14 +1,14 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
 import { logout } from '@/supabase/auth';
-import { Menu } from 'antd';
+import { Menu, MenuProps } from 'antd';
 import { navItems } from '@/data/navMenu';
 
 export function TopMenu() {
     const router = useRouter();
     const pathname = usePathname();
 
-    const handleClick = async (e) => {
+    const handleClick: MenuProps['onClick'] = async (e) => {
         if (e.key === '/login') {
             await logout();
         }

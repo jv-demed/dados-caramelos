@@ -1,4 +1,6 @@
+import { IProduct } from '@/types/Product';
 import { Image, Tag, Switch, Dropdown } from 'antd';
+import { ColumnsType } from 'antd/es/table';
 import { MoreVertical } from 'lucide-react';
 
 export function useProductsColumns({
@@ -8,7 +10,22 @@ export function useProductsColumns({
     onEdit,
     onDelete,
     onToggleAvailability,
-}) {
+}: {
+    typeFilters: {
+        text: string;
+        value: string;
+    }[];
+    availabilityFilters: {
+        text: string;
+        value: boolean;
+    }[];
+    typeColors: {
+        [k: string]: string;
+    };
+    onEdit: (product: IProduct) => void;
+    onDelete: (product: IProduct) => void;
+    onToggleAvailability: (product: IProduct) => void;
+}): ColumnsType<IProduct> {
     return [
         {
             title: 'Imagem',
@@ -69,7 +86,7 @@ export function useProductsColumns({
         {
             title: '',
             key: 'actions',
-            render: (_, record) => (
+            render: (_: unknown, record) => (
                 <Dropdown
                     menu={{
                         items: [
