@@ -1,36 +1,35 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
-    --background: #eab74a;
-    --primary: #1e95b3;
-    --darktext: #3b3b3b;
-    --lighttext: #f5f5f5;
-    --border: #99a1af;
-    --error: tomato;
+  --background: #f5f5f5;
+  --primary: #eab74a;
+  --secondary: #1e95b3;
+  --foreground: #1a1a1a;
+  --darktext: #3b3b3b;
+  --lighttext: #f5f5f5;
+  --border: #99a1af;
+  --error: tomato;
 }
 
 @theme inline {
-    --color-background: var(--background);
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
-    --color-primary: var(--primary);
-    --color-darktext: var(--darktext);
-    --color-lighttext: var(--lighttext);
-    --color-border: var(--border);
-    --color-error: var(--error);
+  --color-background: var(--background);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-darktext: var(--darktext);
+  --color-lighttext: var(--lighttext);
+  --color-border: var(--border);
+  --color-error: var(--error);
+}
+
+html,
+body {
+  min-height: 100vh;
+  height: fit-content;
 }
 
 body {
-    background: var(--background);
-    color: var(--darktext);
-    font-family: Arial, Helvetica, sans-serif;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }
-
-.swal-rounded {
-    border-radius: 32px;
-}
-  
-.swal-btn-rounded {
-    border-radius: 999px;
-    padding: 10px 20px;
-}  

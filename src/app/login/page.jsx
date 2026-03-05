@@ -1,52 +1,48 @@
-'use client'
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useMedia } from '@/hooks/useMedia';
-import { login } from '@/supabase/auth';
-import { ICONS } from '@/assets/icons';
-import { MEDIA } from '@/assets/media';
-import { Box } from '@/components/containers/Box';
-import { Main } from '@/components/containers/Main';
-import { TextInput } from '@/components/inputs/TextInput';
-import { ActionBtn } from '@/components/elements/ActionBtn';
-import { PasswordInput } from '@/components/inputs/PasswordInput';
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { login } from "@/supabase/auth";
+import { Button, Input } from "antd";
 
 export default function LoginPage() {
+  const router = useRouter();
 
-    const router = useRouter();
-    const isMobile = useMedia(MEDIA.mobile);
+  const [auth, setAuth] = useState({
+    email: "",
+    password: "",
+  });
 
-    const [auth, setAuth] = useState({
-        email: '',
-        password: ''
+  async function handleSubmit() {
+    await login(auth).then((res) => {
+      if (res.success) router.push("/");
     });
+  }
 
-    async function handleSubmit(){
-        await login(auth).then(res => {
-            if(res.success) router.push('/');
-        });
-    }
-
-    return (
-        <Main isMenuHidden>
-            <Box width={isMobile ? '90%' : '400px'}>
-                <form className='flex flex-col gap-4 w-full'>
-                    <TextInput title='E-mail' 
-                        type='email'
-                        value={auth.email}
-                        setValue={e => setAuth({ ...auth, email: e })}
-                    />
-                    <PasswordInput title='Senha'
-                        value={auth.password}
-                        setValue={e => setAuth({ ...auth, password: e })}
-                    />
-                    <ActionBtn text='Entrar'
-                        type='submit'
-                        icon={ICONS.login}
-                        action={handleSubmit}
-                    />
-                </form>
-            </Box>
-        </Main>
-    );
+  return (
+    <main className="w-screen h-screen max-w-3xl mx-auto flex flex-col gap-4 md:gap-6 justify-center p-10">
+      <h1 className="text-xl md:text-2xl font-semibold">Entrar</h1>
+      <form className="flex flex-col gap-4 w-full">
+        <div>
+          <label className="block mb-1 font-medium">Email</label>
+          <Input
+            value={auth.email}
+            onChange={(e) => setAuth({ ...auth, email: e.target.value })}
+            placeholder="Digite o email"
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium">Senha</label>
+          <Input
+            value={auth.password}
+            onChange={(e) => setAuth({ ...auth, password: e.target.value })}
+            placeholder="Digite a senha"
+            type="password"
+          />
+        </div>
+        <Button type="primary" onClick={handleSubmit} className="w-full">
+          Entrar
+        </Button>
+      </form>
+    </main>
+  );
 }
