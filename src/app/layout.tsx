@@ -1,12 +1,13 @@
 import '@/app/globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider, theme } from 'antd';
+import { ReactNode } from 'react';
 
 export const metadata = {
     title: 'Dados Caramelos do Vale',
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="pt-br">
             <body className="antialiased">

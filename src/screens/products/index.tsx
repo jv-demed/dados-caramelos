@@ -9,16 +9,17 @@ import { toggleProductAvailability as toggleService } from '@/services/productsS
 import { ProductsMobileList } from './ProductsMobileList';
 import { useProductsFilters } from '@/hooks/useProductsFilters';
 import { useProductsColumns } from '@/hooks/useProductsColumns';
+import { IProduct } from '@/types/Product';
 
 const { Search } = Input;
 
 export function ProductsPage() {
-    const products = useDataList({ table: 'products' });
+    const products = useDataList<IProduct>({ table: 'products' });
 
     const [search, setSearch] = useState('');
     const [tableFilters, setTableFilters] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
 
     const { typeFilters, availabilityFilters, filteredProducts, typeColors } = useProductsFilters(
         products.list,
@@ -40,7 +41,7 @@ export function ProductsPage() {
         setIsModalOpen(true);
     }
 
-    function handleOpenEditModal(product) {
+    function handleOpenEditModal(product: IProduct) {
         setSelectedProduct(product);
         setIsModalOpen(true);
     }
@@ -50,7 +51,7 @@ export function ProductsPage() {
         setSelectedProduct(null);
     }
 
-    function handleOpenDeleteModal(product) {
+    function handleOpenDeleteModal(product: IProduct) {
         Modal.confirm({
             title: 'Confirmar exclusão',
             content: (
@@ -72,7 +73,7 @@ export function ProductsPage() {
         });
     }
 
-    async function toggleProductAvailability(product) {
+    async function toggleProductAvailability(product: IProduct) {
         const result = await toggleService(product);
         if (result) {
             products.refresh();

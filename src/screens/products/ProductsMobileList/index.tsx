@@ -1,5 +1,16 @@
+import { IProduct } from '@/types/Product';
 import { Switch, Tag, Image, Dropdown, Card } from 'antd';
 import { MoreVertical } from 'lucide-react';
+
+interface IProductsMobileList {
+    products: IProduct[];
+    typeColors: {
+        [k: string]: string;
+    };
+    handleOpenEditModal: (product: IProduct) => void;
+    handleOpenDeleteModal: (product: IProduct) => void;
+    toggleProductAvailability: (product: IProduct) => void;
+}
 
 export function ProductsMobileList({
     products,
@@ -7,7 +18,7 @@ export function ProductsMobileList({
     handleOpenEditModal,
     handleOpenDeleteModal,
     toggleProductAvailability,
-}) {
+}: IProductsMobileList) {
     return (
         <div className="flex flex-col gap-3 md:hidden">
             {products.map((item) => (
@@ -24,7 +35,6 @@ export function ProductsMobileList({
                             }}
                             preview={false}
                         />
-
                         <div className="flex-1">
                             <div className="flex justify-between items-start">
                                 <div>
@@ -39,7 +49,6 @@ export function ProductsMobileList({
 
                                     <p className="text-sm text-gray-500">{item.material || '-'}</p>
                                 </div>
-
                                 <Dropdown
                                     menu={{
                                         items: [
@@ -60,7 +69,6 @@ export function ProductsMobileList({
                                     <MoreVertical size={18} />
                                 </Dropdown>
                             </div>
-
                             <div className="mt-3">
                                 <Switch
                                     checked={item.available}

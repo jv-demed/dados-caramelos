@@ -2,12 +2,13 @@ import '@/app/globals.css';
 import { TopMenu } from '@/components/layout/TopMenu';
 import { LateralMenu } from '@/components/layout/LateralMenu';
 import { UserProvider } from '@/providers/UserProvider';
+import { ReactNode } from 'react';
 
 export const metadata = {
     title: 'Dados Caramelos do Vale',
 };
 
-export default function Layout({ children }) {
+export default function Layout({ children }: { children: ReactNode }) {
     return (
         <UserProvider>
             <TopMenu />

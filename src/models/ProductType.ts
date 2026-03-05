@@ -1,42 +1,46 @@
-export const ProductType = Object.freeze({
-    ADESIVO: 'ADESIVO',
-    BOTTOM: 'BOTTOM',
-    CAMISETA: 'CAMISETA',
-    CANECA: 'CANECA',
-    CHAVEIRO: 'CHAVEIRO',
-    CHEIRINHO: 'CHEIRINHO',
-    ECOBAG: 'ECOBAG',
-    IMA: 'IMA',
-    MARCA_PAGINA: 'MARCA_PAGINA',
-    PLANNER_SEMANAL: 'PLANNER_SEMANAL',
-
-    labels: Object.freeze({
-        ADESIVO: 'Adesivo',
-        BOTTOM: 'Bottom',
-        CAMISETA: 'Camiseta',
-        CANECA: 'Caneca',
-        CHAVEIRO: 'Chaveiro',
-        CHEIRINHO: 'Cheirinho',
-        ECOBAG: 'Ecobag',
-        IMA: 'Imã',
-        MARCA_PAGINA: 'Marca página',
-        PLANNER_SEMANAL: 'Planner semanal',
-    }),
-
-    options() {
-        return Object.values(this)
-            .filter((v) => typeof v === 'string')
-            .map((value) => ({
-                value,
-                label: this.labels[value],
-            }));
+export const ProductType = {
+    ADESIVO: {
+        value: 'ADESIVO',
+        label: 'Adesivo',
     },
-
-    toLower(value) {
-        return value?.toLowerCase();
+    BOTTOM: {
+        value: 'BOTTOM',
+        label: 'Bottom',
     },
-
-    toUpper(value) {
-        return value?.toUpperCase();
+    CAMISETA: {
+        value: 'CAMISETA',
+        label: 'Camiseta',
     },
-});
+    CANECA: {
+        value: 'CANECA',
+        label: 'Caneca',
+    },
+    CHAVEIRO: {
+        value: 'CHAVEIRO',
+        label: 'Chaveiro',
+    },
+    CHEIRINHO: {
+        value: 'CHEIRINHO',
+        label: 'Cheirinho',
+    },
+    ECOBAG: {
+        value: 'ECOBAG',
+        label: 'Ecobag',
+    },
+    IMA: {
+        value: 'IMA',
+        label: 'Imã',
+    },
+    MARCA_PAGINA: {
+        value: 'MARCA_PAGINA',
+        label: 'Marca página',
+    },
+    PLANNER_SEMANAL: {
+        value: 'PLANNER_SEMANAL',
+        label: 'Planner semanal',
+    },
+} as const;
+
+export type ProductType = (typeof ProductType)[keyof typeof ProductType]['value'];
+
+export const productTypeOptions = Object.values(ProductType);

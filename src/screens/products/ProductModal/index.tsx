@@ -4,11 +4,19 @@ import { Modal, Button, Input, Checkbox, Select } from 'antd';
 
 import { createEmptyProduct, createProduct, updateProduct } from '@/services/productsService';
 
-import { ProductType } from '@/models/ProductType';
-import { ProductMaterial } from '@/models/ProductMaterial';
+import { ProductType, productTypeOptions } from '@/models/ProductType';
+import { ProductMaterial, productMaterialOptions } from '@/models/ProductMaterial';
+import { IProduct } from '@/types/Product';
 
-export function ProductForm({ open, onClose, onSuccess, product }) {
-    const [productModel, setProductModel] = useState(createEmptyProduct());
+interface ProductFormProps {
+    open: boolean;
+    onClose: () => void;
+    onSuccess: () => Promise<void> | void;
+    product?: IProduct | null;
+}
+
+export function ProductForm({ open, onClose, onSuccess, product }: ProductFormProps) {
+    const [productModel, setProductModel] = useState<IProduct>(createEmptyProduct());
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -30,18 +38,14 @@ export function ProductForm({ open, onClose, onSuccess, product }) {
         onClose();
     }
 
-    function formatCurrencyBRL(value) {
-        if (value === null || value === undefined) return '';
-
+    function formatCurrencyBRL(value: number) {
         return value.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL',
         });
     }
 
-    function parseCurrencyToNumber(value) {
-        if (!value) return 0;
-
+    function parseCurrencyToNumber(value: string) {
         const onlyNumbers = value.replace(/\D/g, '');
         return Number(onlyNumbers) / 100;
     }
@@ -66,49 +70,54 @@ export function ProductForm({ open, onClose, onSuccess, product }) {
                 <div>
                     <label className="block mb-1 font-medium">Nome</label>
                     <Input
-                        value={productModel?.name}
+                        value={productModel.name}
                         onChange={(e) => setProductModel({ ...productModel, name: e.target.value })}
                         placeholder="Digite o nome do produto"
                     />
                 </div>
+
                 <div>
                     <label className="block mb-1 font-medium">Categoria</label>
+
                     <Select
                         className="w-full"
-                        value={productModel?.type}
+                        value={productModel.type}
                         onChange={(value) =>
                             setProductModel({
                                 ...productModel,
                                 type: value,
                             })
                         }
-                        options={ProductType.options()}
+                        options={productTypeOptions}
                         placeholder="Selecione uma categoria"
                     />
                 </div>
-                {productModel?.type === ProductType.CAMISETA && (
+
+                {productModel?.type === 'CAMISETA' && (
                     <div>
                         <label className="block mb-1 font-medium">Material</label>
 
                         <Select
                             className="w-full"
-                            value={productModel?.material}
+                            value={productModel.material}
                             onChange={(value) =>
                                 setProductModel({
                                     ...productModel,
                                     material: value,
                                 })
                             }
-                            options={ProductMaterial.options()}
+                            options={productMaterialOptions}
                             placeholder="Selecione o material"
                         />
                     </div>
                 )}
+
                 <div className="flex gap-4 items-end">
                     <div>
                         <label className="block mb-1 font-medium">Preço</label>
+
                         <Input
-                            value={formatCurrencyBRL(productModel?.price)}
+                            value={formatCurrencyBRL(productModel.price)}
                             onChange={(e) => {
                                 const numericValue = parseCurrencyToNumber(e.target.value);
 
@@ -121,9 +130,10 @@ export function ProductForm({ open, onClose, onSuccess, product }) {
                             inputMode="numeric"
                         />
                     </div>
+
                     <div className="flex items-center h-fit">
                         <Checkbox
-                            checked={productModel?.available}
+                            checked={productModel.available}
                             onChange={(e) =>
                                 setProductModel({
                                     ...productModel,
@@ -135,10 +145,12 @@ export function ProductForm({ open, onClose, onSuccess, product }) {
                         </Checkbox>
                     </div>
                 </div>
+
                 <div>
                     <label className="block mb-1 font-medium">Link da Imagem</label>
+
                     <Input
-                        value={productModel?.img_link}
+                        value={productModel.img_link}
                         onChange={(e) =>
                             setProductModel({
                                 ...productModel,

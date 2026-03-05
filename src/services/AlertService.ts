@@ -16,7 +16,7 @@ export class AlertService {
         return result.isConfirmed;
     }
 
-    error(message) {
+    error(message: string) {
         Swal.fire({
             confirmButtonColor: 'var(--error)',
             icon: 'error',

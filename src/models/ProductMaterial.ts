@@ -1,26 +1,14 @@
-export const ProductMaterial = Object.freeze({
-    ALGODAO: 'ALGODAO',
-    POLIESTER: 'POLIESTER',
-
-    labels: Object.freeze({
-        ALGODAO: 'Malha de Algodão',
-        POLIESTER: 'Malha de Poliéster',
-    }),
-
-    options() {
-        return Object.values(this)
-            .filter((v) => typeof v === 'string')
-            .map((value) => ({
-                value,
-                label: this.labels[value],
-            }));
+export const ProductMaterial = {
+    ALGODAO: {
+        value: 'ALGODAO',
+        label: 'Malha de Algodão',
     },
-
-    toLower(value) {
-        return value?.toLowerCase();
+    POLIESTER: {
+        value: 'POLIESTER',
+        label: 'Malha de Poliéster',
     },
+} as const;
 
-    toUpper(value) {
-        return value?.toUpperCase();
-    },
-});
+export type ProductMaterial = (typeof ProductMaterial)[keyof typeof ProductMaterial]['value'];
+
+export const productMaterialOptions = Object.values(ProductMaterial);

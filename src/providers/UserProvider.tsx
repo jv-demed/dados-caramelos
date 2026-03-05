@@ -1,16 +1,24 @@
 'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/supabase/client';
 import { SpinLoader } from '@/components/ui/SpinLoader';
 
-const UserContext = createContext(null);
+interface IUser {
+    id: string;
+    email: string;
+}
 
-export function UserProvider({ children }) {
+interface IUserContext {
+    user?: IUser;
+    refreshUser: () => Promise<IUser | undefined>;
+}
+
+const UserContext = createContext<IUserContext | undefined>(undefined);
+
+export function UserProvider({ children }: { children: ReactNode }) {
     const router = useRouter();
-
-    const [user, setUser] = useState();
-
+    const [user, setUser] = useState<IUser | undefined>();
     const [isLoading, setIsLoading] = useState(true);
 
     async function getUser() {
@@ -19,16 +27,19 @@ export function UserProvider({ children }) {
             router.push('/login');
             return;
         }
+
         const { data: userData, error: userError } = await supabase
             .from('users')
             .select('*')
             .eq('id', data.user.id)
             .single();
+
         if (userError) {
             router.push('/login');
             return;
         }
-        return userData;
+
+        return userData as IUser;
     }
 
     async function refreshUser() {
@@ -38,17 +49,20 @@ export function UserProvider({ children }) {
     }
 
     useEffect(() => {
-        getUser().then(async (res) => {
+        getUser().then((res) => {
             if (!res) return;
             setUser(res);
             setIsLoading(false);
         });
     }, []);
 
-    if (isLoading) {
-        return <SpinLoader />;
-    }
+    if (isLoading) return <SpinLoader />;
+
     return <UserContext.Provider value={{ user, refreshUser }}>{children}</UserContext.Provider>;
 }
 
-export const useUser = () => useContext(UserContext);
+export const useUser = () => {
+    const context = useContext(UserContext);
+    if (!context) throw new Error('useUser must be used within a UserProvider');
+    return context;
+};
