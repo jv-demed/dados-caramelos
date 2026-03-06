@@ -22,11 +22,11 @@ O projeto foi desenvolvido com foco em **clareza, modularidade e escalabilidade*
 
 ### 🔧 **Stack principal**
 
-| Categoria | Tecnologia | Descrição |
-|------------|-------------|-----------|
-| **Frontend** | [React](https://react.dev/) | Biblioteca principal para criação da interface. |
-| **Framework** | [Next.js](https://nextjs.org/) | Framework React com suporte a rotas, API Routes e renderização otimizada. |
-| **Estilização** | [Tailwind CSS](https://tailwindcss.com/) | Framework de estilos utilitário, rápido e responsivo. |
-| **Banco de Dados / Backend** | [Supabase](https://supabase.com/) | Plataforma que fornece autenticação, banco de dados (PostgreSQL) e storage. |
+| Categoria                    | Tecnologia                               | Descrição                                                                   |
+| ---------------------------- | ---------------------------------------- | --------------------------------------------------------------------------- |
+| **Frontend**                 | [React](https://react.dev/)              | Biblioteca principal para criação da interface.                             |
+| **Framework**                | [Next.js](https://nextjs.org/)           | Framework React com suporte a rotas, API Routes e renderização otimizada.   |
+| **Estilização**              | [Tailwind CSS](https://tailwindcss.com/) | Framework de estilos utilitário, rápido e responsivo.                       |
+| **Banco de Dados / Backend** | [Supabase](https://supabase.com/)        | Plataforma que fornece autenticação, banco de dados (PostgreSQL) e storage. |
 
 ---

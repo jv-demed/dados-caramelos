@@ -1,13 +1,13 @@
 import { createRecord, deleteRecord, updateRecord } from '@/supabase/crud';
 import { ProductType } from '@/models/ProductType';
 import { AlertService } from '@/services/AlertService';
-import { ProductMaterial } from '@/models/ProductMaterial';
+import { IProduct } from '@/types/Product';
 
 const alert = new AlertService();
 
 export function createEmptyProduct() {
     return {
-        id: null,
+        id: 0,
         name: '',
         type: '',
         material: '',
@@ -15,72 +15,71 @@ export function createEmptyProduct() {
         available: false,
         size: false,
         img_link: '',
-    }
+    } as IProduct;
 }
 
-export async function createProduct(newProduct) {
-    if(!verifyProduct(newProduct)) return;
+export async function createProduct(newProduct: IProduct) {
+    if (!verifyProduct(newProduct)) return;
     const { id, ...productToInsert } = newProduct;
     const normalizedProduct = normalize(productToInsert);
     return await createRecord('products', normalizedProduct);
 }
 
-export async function updateProduct(product) {
-    if(!product?.id) return;
-    if(!verifyProduct(product)) return;
+export async function updateProduct(product: IProduct) {
+    if (!product?.id) return;
+    if (!verifyProduct(product)) return;
     const normalizedProduct = normalize(product);
     return await updateRecord('products', product.id, normalizedProduct);
 }
 
-export async function toggleProductAvailability(product) {
-    if(!product?.id) return;
-    return await updateRecord('products', product.id, { 
-        available: !product.available 
+export async function toggleProductAvailability(product: IProduct) {
+    if (!product?.id) return;
+    return await updateRecord('products', product.id, {
+        available: !product.available,
     });
 }
 
-export async function deleteProduct(product) {
-    if(!product.id) {
+export async function deleteProduct(product: IProduct) {
+    if (!product.id) {
         alert.error('O produto não foi encontrado');
         return;
     }
     return await deleteRecord('products', product.id);
 }
 
-function normalize(product) {
-    const typeUpper = ProductType.toUpper(product.type);
-    const isCamiseta = typeUpper === ProductType.CAMISETA;
+function normalize(product: IProduct) {
+    const typeUpper = product.type?.toUpperCase();
+    const isCamiseta = typeUpper === ProductType.CAMISETA.value;
+
     return {
         ...product,
         name: product.name?.trim(),
         img_link: product.img_link?.trim(),
-        type: ProductType.toLower(product.type),
-        material: isCamiseta
-            ? ProductMaterial.toLower(product.material)
-            : null,
-        size: isCamiseta ? true : null
-    }
+        type: product.type?.toLowerCase(),
+        material: isCamiseta ? product.material?.toLowerCase() : null,
+        size: isCamiseta ? true : null,
+    };
 }
 
-function verifyProduct(product) {
-    if(!product.name) {
+function verifyProduct(product: IProduct) {
+    if (!product.name) {
         alert.error('O nome do produto é obrigatório');
         return false;
     }
-    if(!product.type) {
+    if (!product.type) {
         alert.error('A categoria do produto é obrigatória');
         return false;
     }
-    const type = ProductType.toUpper(product.type);
-    if(type === ProductType.CAMISETA && !product.material) {
+    const type = product.type?.toUpperCase();
+    if (type === ProductType.CAMISETA.value && !product.material) {
         alert.error('O material do produto é obrigatório');
         return false;
     }
-    if(product.price == null || product.price < 0) {
+    if (product.price == null || product.price < 0) {
         alert.error('O preço do produto é obrigatório e deve ser positivo');
         return false;
     }
-    if(!product.img_link) {
+    if (!product.img_link) {
         alert.error('O link da imagem do produto é obrigatório');
         return false;
     }
