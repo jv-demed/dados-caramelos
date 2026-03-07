@@ -47,6 +47,7 @@ export default function LoginPage() {
                         name="email"
                         type="email"
                         autoComplete="email"
+                        required
                     />
                 </div>
                 <div>
@@ -58,6 +59,7 @@ export default function LoginPage() {
                         name="password"
                         type="password"
                         autoComplete="current-password"
+                        required
                     />
                 </div>
                 <Button
