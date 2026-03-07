@@ -43,6 +43,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
                                     horizontalItemSelectedColor: '#1a1a1a',
                                     horizontalItemSelectedBg: '#ffffff80',
+
+                                    subMenuItemSelectedColor: '#1a1a1a',
+                                    groupTitleColor: '#1a1a1a',
+                                    popupBg: '#eab74a',
                                 },
                                 Checkbox: {
                                     colorPrimary: '#1e95b3',

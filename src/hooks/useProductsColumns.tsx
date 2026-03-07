@@ -1,3 +1,4 @@
+import { FilterOptionProps } from '@/types/FilterOption';
 import { IProduct } from '@/types/Product';
 import { Image, Tag, Switch, Dropdown } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -11,14 +12,8 @@ export function useProductsColumns({
     onDelete,
     onToggleAvailability,
 }: {
-    typeFilters: {
-        text: string;
-        value: string;
-    }[];
-    availabilityFilters: {
-        text: string;
-        value: boolean;
-    }[];
+    typeFilters: FilterOptionProps<string>[];
+    availabilityFilters: FilterOptionProps<boolean>[];
     typeColors: {
         [k: string]: string;
     };
