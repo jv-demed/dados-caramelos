@@ -1,5 +1,5 @@
-import { PetsPage } from '@/screens/pets';
+import { DashboardPage } from '@/screens/dashboard';
 
 export default function Home() {
-    return <PetsPage />;
+    return <DashboardPage />;
 }

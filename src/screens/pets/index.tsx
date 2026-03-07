@@ -1,180 +1,136 @@
 'use client';
 
 import { useState } from 'react';
+import { Table, Input, Button, Empty, Select } from 'antd';
+
 import { useDataList } from '@/hooks/useDataList';
-
-import { Table, Empty, Input, Button, Modal, Tag } from 'antd';
-
-import { usePetsFilters } from '@/hooks/usePetsFilters';
+import { SizeFilter, usePetsFilters } from '@/hooks/usePetsFilters';
 import { usePetsColumns } from '@/hooks/usePetsColumns';
 
 import { IPet } from '@/types/Pet';
-
 import { PetsMobileList } from './PetsMobileList';
-import { togglePetAdopted } from '@/services/petsService';
-import Image from 'next/image';
-import { PetForm } from './PetModal';
+import { useRouter } from 'next/navigation';
+import { PetForm } from '../../components/feature/PetModal';
 
 const { Search } = Input;
 
 export function PetsPage() {
+    const PAGE_SIZE = 10;
+    const router = useRouter();
+
     const pets = useDataList<IPet>({
         table: 'pets_info',
         order: 'pet_name',
     });
 
+    const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
-    const [tableFilters, setTableFilters] = useState({});
-    const [selectedPet, setSelectedPet] = useState<IPet | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [genderFilter, setGenderFilter] = useState<string | null>(null);
+    const [sizeFilter, setSizeFilter] = useState<SizeFilter | null>(null);
+    const [statusFilter, setStatusFilter] = useState<string | null>(null);
+    const [openModal, setOpenModal] = useState(false);
 
-    const {
-        booleanFilters,
-        filteredPets,
-        genderColors,
-        genderFilters,
-        sizeColors,
-        sizeFilters,
-        hostedColors,
-        hostedFilters,
-    } = usePetsFilters(pets.list, search, tableFilters);
+    const { filteredPets, genderColors, sizeFilters, sizeColors, hostedColors } = usePetsFilters(
+        pets.list,
+        search,
+        genderFilter,
+        sizeFilter,
+        statusFilter
+    );
 
     const columns = usePetsColumns({
-        booleanFilters,
         genderColors,
-        genderFilters,
         sizeColors,
-        sizeFilters,
         hostedColors,
-        hostedFilters,
-        onEdit: handleOpenEditModal,
-        onDelete: handleOpenDeleteModal,
-        onToggleAdopted: handleTogglePetAdopted,
+        onView: (pet) => {
+            router.push(`/pets/${pet.pet_id}`);
+        },
     });
 
-    function handleOpenAddModal() {
-        setIsModalOpen(true);
-    }
-
-    function handleOpenEditModal(pet: IPet) {
-        setSelectedPet(pet);
-        setIsModalOpen(true);
-    }
-
-    function handleOpenDeleteModal(pet: IPet) {
-        Modal.confirm({
-            title: 'Confirmar exclusão',
-            content: (
-                <>
-                    Você realmente deseja excluir o pet <strong>{pet.pet_name}</strong>? Essa ação
-                    não poderá ser desfeita.
-                </>
-            ),
-            okText: 'Excluir',
-            okType: 'danger',
-            cancelText: 'Cancelar',
-            centered: true,
-            async onOk() {
-                console.log('delete pet', pet);
-                pets.refresh();
-            },
-        });
-    }
-
-    async function handleTogglePetAdopted(pet: IPet) {
-        togglePetAdopted(pet);
-        pets.refresh();
-    }
-
-    function handleCloseModal() {
-        setIsModalOpen(false);
-        setSelectedPet(null);
-    }
-
-    function renderExpandedRow(pet: IPet) {
-        return (
-            <div style={{ display: 'flex', gap: 24 }}>
-                <div className="relative w-40 h-40">
-                    <Image
-                        src={pet.profile_img}
-                        alt={pet.pet_name}
-                        fill
-                        style={{ borderRadius: 8, objectFit: 'cover' }}
-                    />
-                </div>
-                <div style={{ flex: 1 }}>
-                    <h3 className="font-semibold">Descrição:</h3>
-                    <p style={{ whiteSpace: 'pre-line' }}>{pet.description || 'Sem descrição'}</p>
-
-                    <div style={{ display: 'flex', gap: 24, marginTop: 12 }}>
-                        <Tag color={pet.castrated ? 'green' : 'red'}>
-                            {pet.castrated ? 'Castrado' : 'Não castrado'}
-                        </Tag>
-                        <Tag color={pet.need_sponsorship ? 'gold' : 'default'}>
-                            {pet.need_sponsorship
-                                ? 'Precisa de apadrinhamento'
-                                : 'Sem apadrinhamento'}
-                        </Tag>
-                        {pet.adopted ? (
-                            <Tag color="green">Adotado</Tag>
-                        ) : pet.hosted ? (
-                            <Tag color="blue">Hospedado</Tag>
-                        ) : !pet.adopted && !pet.hosted ? (
-                            <Tag>Disponível</Tag>
-                        ) : null}
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    const total = filteredPets.length;
+    const start = total === 0 ? 0 : (page - 1) * PAGE_SIZE + 1;
+    const end = Math.min(page * PAGE_SIZE, total);
 
     return (
         <>
-            <PetForm
-                open={isModalOpen}
-                onClose={handleCloseModal}
-                onSuccess={pets.refresh}
-                pet={selectedPet}
-            />
             <h1 className="text-xl md:text-2xl font-semibold">Pets</h1>
-            <div className="w-full flex gap-4 md:gap-8">
+            <div className="flex flex-col md:grid md:grid-cols-6 gap-3 mb-4">
                 <Search
-                    placeholder="Buscar pet pelo nome"
+                    placeholder="Buscar pet por nome..."
                     allowClear
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full"
+                    className="w-full col-span-5"
                 />
-
-                <Button type="primary" onClick={handleOpenAddModal}>
+                <Button type="primary" onClick={() => setOpenModal(true)}>
                     Adicionar Pet
                 </Button>
+                <Select
+                    placeholder="Sexo"
+                    allowClear
+                    onChange={(v) => setGenderFilter(v)}
+                    options={[
+                        { label: 'Macho', value: 'm' },
+                        { label: 'Fêmea', value: 'f' },
+                    ]}
+                    className="w-full col-span-2"
+                />
+                <Select
+                    placeholder="Porte"
+                    allowClear
+                    onChange={(v) => setSizeFilter(v)}
+                    options={sizeFilters}
+                    className="w-full col-span-2"
+                />
+                <Select
+                    placeholder="Status"
+                    allowClear
+                    onChange={(v) => setStatusFilter(v)}
+                    options={[
+                        { label: 'Disponível', value: 'available' },
+                        { label: 'No Vale', value: 'uni' },
+                        { label: 'Em lar temporário', value: 'hosted' },
+                        { label: 'No abrigo', value: 'shelter' },
+                        { label: 'Adotado', value: 'adopted' },
+                    ]}
+                    className="w-full col-span-2"
+                />
+                <p className="hidden md:block w-full col-span-6 text-sm text-gray-500">
+                    Mostrando{' '}
+                    <strong>
+                        {start} - {end}
+                    </strong>{' '}
+                    de {total} pets
+                </p>
             </div>
-
             <Table
                 rowKey="pet_id"
                 dataSource={filteredPets}
                 columns={columns}
                 loading={pets.loading}
-                pagination={{ pageSize: 10 }}
-                expandable={{
-                    expandedRowRender: renderExpandedRow,
-                }}
-                onChange={(_, filters) => {
-                    setTableFilters(filters);
+                pagination={{
+                    pageSize: PAGE_SIZE,
+                    current: page,
+                    onChange: (p) => setPage(p),
                 }}
                 locale={{
                     emptyText: <Empty description="Nenhum pet encontrado" />,
                 }}
-                className="w-full hidden md:table"
+                className="hidden md:table"
             />
-
             <PetsMobileList
                 pets={filteredPets}
                 genderColors={genderColors}
-                handleOpenEditModal={handleOpenEditModal}
-                handleOpenDeleteModal={handleOpenDeleteModal}
-                togglePetAvailability={handleTogglePetAdopted}
+                sizeColors={sizeColors}
+                hostedColors={hostedColors}
+            />
+            <PetForm
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+                onSuccess={() => {
+                    pets.refresh();
+                    setOpenModal(false);
+                }}
             />
         </>
     );

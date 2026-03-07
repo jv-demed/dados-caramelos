@@ -1,105 +1,102 @@
 import { useMemo } from 'react';
-import { FilterValue } from 'antd/es/table/interface';
 import { IPet } from '@/types/Pet';
 
-const sizeTagPalette = ['red', 'volcano', 'orange', 'gold', 'green', 'blue', 'purple'];
-const hostedTagPalette = ['blue', 'geekblue', 'purple', 'magenta', 'gold', 'lime', 'green', 'cyan'];
+export type SizeFilter = 'P' | 'M' | 'G' | 'GG';
 
-type PetGender = 'm' | 'f';
+const sizeGroups: Record<SizeFilter, string[]> = {
+    P: ['p', 'p/m'],
+    M: ['m', 'm/g', 'p/m'],
+    G: ['g', 'm/g'],
+    GG: ['gg'],
+};
 
 export function usePetsFilters(
     pets: IPet[],
     search: string,
-    tableFilters: Record<string, FilterValue>
+    genderFilter: string | null,
+    sizeFilter: SizeFilter | null,
+    statusFilter: string | null
 ) {
     const genderColors = {
         m: 'cyan',
         f: 'magenta',
     };
 
-    const genderFilters: { text: string; value: PetGender }[] = [
-        { text: 'Macho', value: 'm' },
-        { text: 'Fêmea', value: 'f' },
+    const sizeFilters = [
+        { label: 'P', value: 'P' },
+        { label: 'M', value: 'M' },
+        { label: 'G', value: 'G' },
+        { label: 'GG', value: 'GG' },
     ];
 
-    const sizeFilters = useMemo(() => {
-        return Array.from(new Set(pets.map((p) => p.size)))
-            .sort()
-            .map((size) => ({
-                text: size,
-                value: size,
-            }));
-    }, [pets]);
-
-    const sizeColors = useMemo(() => {
-        return Object.fromEntries(
-            sizeFilters.map((s, index) => [s.value, sizeTagPalette[index % sizeTagPalette.length]])
-        );
-    }, [sizeFilters]);
-
-    const booleanFilters = [
-        { text: 'Sim', value: true },
-        { text: 'Não', value: false },
-    ];
-
-    const hostedFilters = useMemo(() => {
-        const hosts = Array.from(new Set(pets.map((p) => p.hosted).filter(Boolean)));
-
-        return hosts.map((host) => ({
-            text: host,
-            value: host,
-        }));
-    }, [pets]);
+    const sizeColors: Record<string, string> = {
+        p: 'green',
+        'p/m': 'lime',
+        m: 'blue',
+        'm/g': 'geekblue',
+        g: 'volcano',
+        gg: 'purple',
+    };
 
     const hostedColors = useMemo(() => {
-        const hosts = hostedFilters.map((h) => h.value);
+        const palette = ['gold', 'lime', 'geekblue', 'purple', 'cyan', 'magenta'];
+
+        const hosts = Array.from(new Set(pets.map((p) => p.hosted).filter(Boolean)));
 
         return Object.fromEntries(
-            hosts.map((host, index) => [host, hostedTagPalette[index % hostedTagPalette.length]])
+            hosts.map((host, index) => [host, palette[index % palette.length]])
         );
-    }, [hostedFilters]);
+    }, [pets]);
 
     const filteredPets = useMemo(() => {
         return pets.filter((pet) => {
             const matchesSearch = pet.pet_name.toLowerCase().includes(search.toLowerCase());
 
-            const matchesGender = tableFilters.gender
-                ? tableFilters.gender.includes(pet.gender)
-                : true;
+            const matchesGender = genderFilter ? pet.gender === genderFilter : true;
 
-            const matchesSize = tableFilters.size ? tableFilters.size.includes(pet.size) : true;
+            const matchesSize = (() => {
+                if (!sizeFilter) return true;
 
-            const matchesCastrated = tableFilters.castrated
-                ? tableFilters.castrated.includes(pet.castrated)
-                : true;
+                const group = sizeGroups[sizeFilter];
 
-            const matchesSponsorship = tableFilters.need_sponsorship
-                ? tableFilters.need_sponsorship.includes(pet.need_sponsorship)
-                : true;
+                return group.includes(pet.size?.toLowerCase());
+            })();
 
-            const matchesAdopted = tableFilters.adopted
-                ? tableFilters.adopted.includes(pet.adopted)
-                : true;
+            const matchesStatus = (() => {
+                if (!statusFilter) return true;
 
-            return (
-                matchesSearch &&
-                matchesGender &&
-                matchesSize &&
-                matchesCastrated &&
-                matchesSponsorship &&
-                matchesAdopted
-            );
+                if (statusFilter === 'adopted') {
+                    return pet.adopted;
+                }
+
+                if (statusFilter === 'available') {
+                    return !pet.adopted;
+                }
+
+                if (statusFilter === 'hosted') {
+                    return !pet.adopted && pet.hosted === 'em LT';
+                }
+
+                if (statusFilter === 'shelter') {
+                    return !pet.adopted && pet.hosted === 'no Recanto';
+                }
+
+                if (statusFilter === 'uni') {
+                    return !pet.adopted && pet.hosted === 'no Vale';
+                }
+
+                return true;
+            })();
+
+            return matchesSearch && matchesGender && matchesSize && matchesStatus;
         });
-    }, [pets, search, tableFilters]);
+    }, [pets, search, genderFilter, sizeFilter, statusFilter]);
 
     return {
-        genderFilters,
-        sizeFilters,
-        booleanFilters,
-        sizeColors,
         genderColors,
-        filteredPets,
+        sizeFilters,
+        sizeColors,
         hostedColors,
-        hostedFilters,
+        filteredPets,
     };
 }

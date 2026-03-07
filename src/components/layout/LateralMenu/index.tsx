@@ -10,17 +10,23 @@ export function LateralMenu() {
     const router = useRouter();
     const pathname = usePathname();
 
+    const openKeys = navItems.map((item) => item.key);
+
     const handleClick: MenuProps['onClick'] = async (e) => {
         if (e.key === '/login') {
             await logout();
         }
-        router.push(e.key);
+
+        if (e.key.startsWith('/')) {
+            router.push(e.key);
+        }
     };
 
     return (
         <div className="h-screen w-64">
             <Menu
                 mode="inline"
+                defaultOpenKeys={openKeys}
                 selectedKeys={[pathname]}
                 onClick={handleClick}
                 items={navItems}

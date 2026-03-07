@@ -1,135 +1,116 @@
-import { FilterOptionProps } from '@/types/FilterOption';
-import { IPet } from '@/types/Pet';
-import { Image, Tag, Switch, Dropdown } from 'antd';
+import { Image, Tag, Button, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { MoreVertical } from 'lucide-react';
+import { MessageCircle, Eye } from 'lucide-react';
+import { IPet } from '@/types/Pet';
 
-type UsePetsColumnsProps = {
-    genderFilters: FilterOptionProps<'m' | 'f'>[];
-    sizeFilters: FilterOptionProps<string>[];
-    booleanFilters: FilterOptionProps<boolean>[];
-
+type Props = {
     genderColors: Record<'m' | 'f', string>;
     sizeColors: Record<string, string>;
-
-    hostedFilters: FilterOptionProps<string>[];
     hostedColors: Record<string, string>;
-
-    onEdit: (pet: IPet) => void;
-    onDelete: (pet: IPet) => void;
-    onToggleAdopted: (pet: IPet) => void;
+    onView: (pet: IPet) => void;
 };
 
 export function usePetsColumns({
-    genderFilters,
-    sizeFilters,
-    booleanFilters,
     genderColors,
     sizeColors,
-    hostedFilters,
     hostedColors,
-    onEdit,
-    onDelete,
-    onToggleAdopted,
-}: UsePetsColumnsProps): ColumnsType<IPet> {
+    onView,
+}: Props): ColumnsType<IPet> {
+    const statusRank = (pet: IPet) => {
+        if (pet.adopted) return 3;
+        if (pet.hosted) return 2;
+        return 1;
+    };
+
     return [
         {
-            title: 'Imagem',
-            dataIndex: 'profile_img',
-            key: 'img',
-            width: 80,
-            render: (img, record) => (
-                <Image
-                    src={img}
-                    alt={record.pet_name}
-                    width={60}
-                    height={60}
-                    style={{ objectFit: 'cover', borderRadius: 8 }}
-                    preview={false}
-                />
+            title: 'Pet',
+            key: 'pet',
+            sorter: (a, b) => a.pet_name.localeCompare(b.pet_name),
+            sortDirections: ['ascend', 'descend'],
+            render: (_, pet) => (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <Image
+                        src={pet.profile_img}
+                        alt={pet.pet_name}
+                        width={64}
+                        height={64}
+                        style={{ borderRadius: 8, objectFit: 'cover' }}
+                        preview={false}
+                    />
+
+                    <strong>{pet.pet_name}</strong>
+                </div>
             ),
         },
         {
-            title: 'Nome',
-            dataIndex: 'pet_name',
-            key: 'pet_name',
-        },
-        {
-            title: 'Gênero',
-            dataIndex: 'gender',
-            key: 'gender',
-            filters: genderFilters,
-            onFilter: (value, record) => record.gender === value,
-            render: (gender: 'm' | 'f') => (
-                <Tag color={genderColors[gender]}>{gender === 'm' ? 'Macho' : 'Fêmea'}</Tag>
+            title: 'Info',
+            key: 'info',
+            render: (_, pet) => (
+                <Space>
+                    <Tag color={genderColors[pet.gender]}>
+                        {pet.gender === 'm' ? 'Macho' : 'Fêmea'}
+                    </Tag>
+                    <Tag color={sizeColors[pet.size]}>{pet.size?.toUpperCase()}</Tag>
+                    <Tag>{pet.age || '-'}</Tag>
+                </Space>
             ),
         },
         {
-            title: 'Porte',
-            dataIndex: 'size',
-            key: 'size',
-            filters: sizeFilters,
-            onFilter: (value, record) => record.size === value,
-            render: (size: string) => (
-                <Tag color={sizeColors[size] || 'default'}>{size.toUpperCase()}</Tag>
-            ),
+            title: 'Status',
+            key: 'status',
+            sorter: (a, b) => statusRank(a) - statusRank(b),
+            sortDirections: ['ascend', 'descend'],
+            render: (_, pet) => {
+                if (pet.adopted) return <Tag color="green">Adotado</Tag>;
+
+                if (pet.hosted) return <Tag color={hostedColors[pet.hosted]}>{pet.hosted}</Tag>;
+
+                return <Tag color="default">Disponível</Tag>;
+            },
         },
         {
-            title: 'Idade',
-            dataIndex: 'age',
-            key: 'age',
-            render: (age: string) => age || '-',
+            title: 'Responsável',
+            key: 'responsible',
+            render: (_, pet) => {
+                if (!pet.adopted && pet.hosted !== 'em LT') return '-';
+
+                const name = 'Maria';
+                const phone = '(44) 99999 ' + String(pet.pet_id).padStart(4, '0');
+
+                return (
+                    <div>
+                        <strong>{name}</strong>
+                        <br />
+                        {phone}
+                    </div>
+                );
+            },
         },
         {
-            title: 'Adotado',
-            dataIndex: 'adopted',
-            key: 'adopted',
-            filters: booleanFilters,
-            onFilter: (value, record) => record.adopted === value,
-            render: (adopted: boolean, record) => (
-                <Switch
-                    checked={adopted}
-                    checkedChildren="Sim"
-                    unCheckedChildren="Não"
-                    onChange={() => onToggleAdopted(record)}
-                />
-            ),
-        },
-        {
-            title: 'Hospedado',
-            dataIndex: 'hosted',
-            key: 'hosted',
-            filters: hostedFilters,
-            onFilter: (value, record) => record.hosted === value,
-            render: (hosted: string | null) =>
-                hosted ? <Tag color={hostedColors[hosted] || 'blue'}>{hosted}</Tag> : <Tag>-</Tag>,
-        },
-        {
-            title: '',
+            title: 'Ações',
             key: 'actions',
-            width: 50,
-            render: (_, record) => (
-                <Dropdown
-                    trigger={['click']}
-                    menu={{
-                        items: [
-                            {
-                                key: 'edit',
-                                label: 'Editar',
-                                onClick: () => onEdit(record),
-                            },
-                            {
-                                key: 'delete',
-                                label: 'Excluir',
-                                danger: true,
-                                onClick: () => onDelete(record),
-                            },
-                        ],
-                    }}
-                >
-                    <MoreVertical size={18} style={{ cursor: 'pointer' }} />
-                </Dropdown>
-            ),
+            render: (_, pet) => {
+                if (!pet.adopted && pet.hosted !== 'em LT') {
+                    return (
+                        <Space className="w-full flex justify-end">
+                            <Button icon={<Eye size={16} />} onClick={() => onView(pet)} />
+                        </Space>
+                    );
+                }
+
+                const phone = '4499999' + String(pet.pet_id).padStart(4, '0');
+
+                return (
+                    <Space className="w-full flex justify-end">
+                        <Button
+                            icon={<MessageCircle size={16} />}
+                            onClick={() => window.open(`https://wa.me/55${phone}`)}
+                        />
+                        <Button icon={<Eye size={16} />} onClick={() => onView(pet)} />
+                    </Space>
+                );
+            },
         },
     ];
 }

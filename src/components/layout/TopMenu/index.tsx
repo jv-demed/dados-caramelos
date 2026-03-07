@@ -1,7 +1,9 @@
 'use client';
+
 import { usePathname, useRouter } from 'next/navigation';
 import { logout } from '@/supabase/auth';
-import { Menu, MenuProps } from 'antd';
+import { Menu } from 'antd';
+import type { MenuProps } from 'antd';
 import { navItems } from '@/data/navMenu';
 
 export function TopMenu() {
@@ -12,6 +14,7 @@ export function TopMenu() {
         if (e.key === '/login') {
             await logout();
         }
+
         router.push(e.key);
     };
 
