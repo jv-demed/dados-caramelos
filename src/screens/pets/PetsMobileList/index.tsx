@@ -4,6 +4,7 @@ import { Card, Tag, Button, Space } from 'antd';
 import { MessageCircle, Eye } from 'lucide-react';
 import { IPet } from '@/types/Pet';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type IPetsMobileList = {
     pets: IPet[];
@@ -71,9 +72,11 @@ export function PetsMobileList({ pets, genderColors, sizeColors, hostedColors }:
                                         WhatsApp
                                     </Button>
                                 )}
-                                <Button icon={<Eye size={16} />} className="w-full">
-                                    Ver detalhes
-                                </Button>
+                                <Link href={`/pets/${pet.pet_id}`} className="w-full">
+                                    <Button icon={<Eye size={16} />} className="w-full">
+                                        Ver detalhes
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
                     </Card>
