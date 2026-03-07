@@ -89,7 +89,7 @@ export function PetDetailsPage({ petId }: IPetDetailsPage) {
                             <Tag>{pet.age}</Tag>
                         </div>
                         <p className="my-3 whitespace-pre-line">{pet.description}</p>
-                        <div className="flex gap-3">
+                        <div className="flex flex-col md:flex-row gap-3">
                             <Button
                                 type="primary"
                                 icon={pet.adopted ? <HeartCrack size={16} /> : <Heart size={16} />}
