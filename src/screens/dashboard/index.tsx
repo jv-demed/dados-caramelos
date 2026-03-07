@@ -19,7 +19,7 @@ export function DashboardPage() {
                         <div>
                             <h2>Total de Pets</h2>
                             <p>{pets.list.length}</p>
-                            <p>Registrados no Sistema</p>
+                            <p className="text-xs">Registrados no Sistema</p>
                         </div>
                         <Heart />
                     </div>
@@ -29,7 +29,7 @@ export function DashboardPage() {
                         <div>
                             <h2>Pets Adotados</h2>
                             <p>{pets.list.filter((pet) => pet.adopted).length}</p>
-                            <p>Com suas novas famílias</p>
+                            <p className="text-xs">Com suas novas famílias</p>
                         </div>
                         <Heart />
                     </div>
@@ -39,7 +39,7 @@ export function DashboardPage() {
                         <div>
                             <h2>Sob cuidados</h2>
                             <p>{pets.list.filter((pet) => !pet.adopted).length}</p>
-                            <p>Aguardando adoção</p>
+                            <p className="text-xs">Aguardando adoção</p>
                         </div>
                         <Dog />
                     </div>
@@ -50,7 +50,7 @@ export function DashboardPage() {
                         <div>
                             <h2>Em Lar Temporário</h2>
                             <p>{pets.list.filter((pet) => pet.hosted === 'em LT').length}</p>
-                            <p>Acolhidos por voluntários</p>
+                            <p className="text-xs">Acolhidos por voluntários</p>
                         </div>
                         <Home />
                     </div>
@@ -60,7 +60,7 @@ export function DashboardPage() {
                         <div>
                             <h2>No Recanto</h2>
                             <p>{pets.list.filter((pet) => pet.hosted === 'no Recanto').length}</p>
-                            <p>Hospedados no abrigo</p>
+                            <p className="text-xs">Hospedados no abrigo</p>
                         </div>
                         <MapPin />
                     </div>
@@ -70,7 +70,7 @@ export function DashboardPage() {
                         <div>
                             <h2>No Vale</h2>
                             <p>{pets.list.filter((pet) => pet.hosted === 'no Vale').length}</p>
-                            <p>Circulando na região</p>
+                            <p className="text-xs">Circulando na região</p>
                         </div>
                         <Heart />
                     </div>
