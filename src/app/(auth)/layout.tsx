@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     return (
         <UserProvider>
             <TopMenu />
-            <main className="flex pt-16.5 md:p-0 md:h-screen">
+            <main className="flex pt-4 pb-8 md:p-0 md:h-screen">
                 <div className="hidden md:block">
                     <LateralMenu />
                 </div>

@@ -21,9 +21,10 @@ export const navItems = [
         key: '/events',
         icon: <Calendar1 size={18} />,
     },
-    {
-        label: 'Sair',
-        key: '/login',
-        icon: <LogOut size={18} />,
-    },
 ];
+
+export const logoutItem = {
+    label: 'Sair',
+    key: '/login',
+    icon: <LogOut size={18} />,
+};

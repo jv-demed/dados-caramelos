@@ -2,7 +2,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/supabase/client';
-import { SpinLoader } from '@/components/ui/SpinLoader';
 
 interface IUser {
     id: string;
@@ -55,8 +54,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
             setIsLoading(false);
         });
     }, []);
-
-    if (isLoading) return <SpinLoader />;
 
     return <UserContext.Provider value={{ user, refreshUser }}>{children}</UserContext.Provider>;
 }

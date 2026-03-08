@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { logout } from '@/supabase/auth';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
-import { navItems } from '@/data/navMenu';
+import { navItems, logoutItem } from '@/data/navMenu';
 
 export function LateralMenu() {
     const router = useRouter();
@@ -23,14 +23,22 @@ export function LateralMenu() {
     };
 
     return (
-        <div className="h-screen w-64">
+        <div className="bg-primary h-screen w-64 flex flex-col py-4">
             <Menu
                 mode="inline"
                 defaultOpenKeys={openKeys}
                 selectedKeys={[pathname]}
                 onClick={handleClick}
                 items={navItems}
-                className="h-full border-none p-4"
+                className="border-none flex-1"
+            />
+
+            <Menu
+                mode="inline"
+                selectable={false}
+                onClick={handleClick}
+                items={[logoutItem]}
+                className="border-none"
             />
         </div>
     );
