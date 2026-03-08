@@ -1,4 +1,4 @@
-import { Dog, LogOut, Store, LayoutDashboard, Bell } from 'lucide-react';
+import { Dog, LogOut, Store, LayoutDashboard, Bell, Calendar1 } from 'lucide-react';
 
 export const navItems = [
     {
@@ -11,13 +11,16 @@ export const navItems = [
         key: '/pets',
         icon: <Dog size={16} />,
     },
-
     {
         label: 'Loja',
         key: '/products',
         icon: <Store size={18} />,
     },
-
+    {
+        label: 'Eventos',
+        key: '/events',
+        icon: <Calendar1 size={18} />,
+    },
     {
         label: 'Sair',
         key: '/login',

@@ -64,6 +64,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                                     activeBorderColor: '#1e95b3',
                                     hoverBorderColor: '#187c95',
                                 },
+                                Select: {
+                                    colorPrimaryHover: '#187c95',
+                                    activeBorderColor: '#1e95b3',
+                                    hoverBorderColor: '#187c95',
+                                },
+                                DatePicker: {
+                                    colorPrimaryHover: '#187c95',
+                                    activeBorderColor: '#1e95b3',
+                                    hoverBorderColor: '#187c95',
+                                },
                             },
                             algorithm: theme.defaultAlgorithm,
                         }}
